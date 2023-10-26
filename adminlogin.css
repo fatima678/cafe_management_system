@@ -1,0 +1,134 @@
+/* *{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+
+}
+body{
+    background-color: #faf5e8; 
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  
+   
+}
+.form-container h1{
+    text-align: center;
+    margin-bottom: 3rem;
+
+}
+.form-container{
+    padding: 5rem;
+    background-color: white;
+    text-align: center;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    height: 16rem;
+    
+}
+form{
+    display: flex;
+    flex-direction: column; 
+}
+.form-container input{
+    margin: 1rem;
+    padding: .5rem;
+    border: none;
+    border-bottom: 2px solid brown;
+    width: 100%;
+}
+.btn{
+    width: 100%;
+    padding: .5rem;
+    margin-top: 2rem;
+    
+} */
+*{
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+body{
+	background-color: #faf5e8;
+}
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+.heading-container {
+	background: url("login2.jpg") no-repeat center center;
+	background-size: cover;
+	position: relative;
+}
+.image-heading {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 10px;
+	text-align: center;
+    border-radius: 5px;
+}
+.image-heading h3 {
+	color: brown;
+}
+.heading-container img{
+	height: 26rem;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	border-radius: 10px 0 0 10px;
+}
+.form-container{
+	width: 25%;
+	height: 16rem;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	padding: 5rem;
+	background-color: white;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	border-radius: 0 10px 10px 0;
+}
+.form-container h2{
+	margin-bottom: 3rem;
+    color: rgb(145, 34, 34);
+    font-size: 1.6rem;
+}
+.form-container form{
+	display: flex;
+	flex-direction: column;
+}
+.form-container form input{
+	margin-bottom: 2rem;
+	padding: 0.5rem;
+	border: none;
+	border-bottom: 2px solid brown;
+    color: brown;
+    font-size: 1rem; 
+    
+}
+.form-container form input:focus {
+    outline: none; 
+}
+
+button{
+	margin-top: 1rem;
+	padding: 0.5rem;
+	width: 100%;
+    background-color: rgb(141, 40, 40);
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    border: none;
+} 
+button:hover{
+    transition: .5s ease;
+    border: 1px solid brown;
+    background-color: transparent;
+    color: brown;
+}
