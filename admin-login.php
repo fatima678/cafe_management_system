@@ -4,12 +4,12 @@
 
     if (isset($_SESSION['AdminLoginId'])) {
         // If the user is already logged in, redirect to the admin dashboard
-        header("Location: admin_dashboard.php");
+        header("Location: admin-dashboard.php");
         exit();
-    }
+    } 
 
-    if (isset($_POST['Signin'])) {
-        $query = "SELECT * FROM `admin_login` WHERE `username` = ? AND `password` = ?";
+    if (isset($_POST['loginbtn'])) {
+        $query = "SELECT * FROM `admin` WHERE `username` = ? AND `password` = ?";
         $stmt = mysqli_prepare($conn, $query);
         mysqli_stmt_bind_param($stmt, "ss", $_POST['AdminName'], $_POST['AdminPass']);
         mysqli_stmt_execute($stmt);
@@ -19,7 +19,7 @@
             $row = $result->fetch_assoc();
             $_SESSION['a_id'] = $row['a_id'];
             $_SESSION['AdminLoginId'] = $_POST['AdminName'];
-            header("location: admin_dashboard.php");
+            header("location: admin-dashboard.php");
             exit();
         } else {
             echo "<script>alert('Incorrect Username or Password')</script>";
@@ -47,9 +47,9 @@
         <div class="form-container">
             <h2>Admin login</h2>
             <form method="post" action="">
-                <input type="text" placeholder="username" name="username">
-                <input type="password" placeholder="password" name="password">
-                <button type="submit" class="loginbtn">Login</button> 
+                <input type="text" placeholder="username" name="AdminName">
+                <input type="password" placeholder="password" name="AdminPass">
+                <button type="submit" class="loginbtn" name="loginbtn">Login</button> 
             </form>
           
         </div>
