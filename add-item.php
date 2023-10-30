@@ -26,6 +26,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="add-item.css">
 </head>
 <body>
     <div class="sidenav" id="mySidenav">
@@ -47,6 +48,28 @@
         <div class="chart-container">
             <canvas id="myPieChart" width="400" height="200"></canvas>
         </div>
+    </div>
+    
+    <div class="add-item">
+        <h2>Add item</h2>
+        <form method="post">
+            <label>Product Name</label>
+            <input type="text" name="product-name" placeholder="Enter product name" required> 
+            <label>Product Price</label>
+            <input type="text" name="product-price" placeholder="Enter product price" required>
+            <label>Product Category</label>
+            <select class="product-category"> 
+                <option>Fast Food</option> 
+                <option>Desi Food</option>
+                <option>Chinese</option>
+                <option>Drinks</option>
+                <option>Desserts</option>
+                <option>BBQ</option>
+            </select>
+            <label>Product image</label>
+            <input type="file" name="product-image" required class="product-image">
+            <input type="button" name="button" value="Add product" class="add-btn">
+        </form>
     </div>
 
     <script>
