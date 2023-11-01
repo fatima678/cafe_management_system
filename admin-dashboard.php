@@ -32,7 +32,7 @@
         <a href="admin-dashboard.php">Dashboard</a>
         <a href="add-item.php">Add Item</a>
         <a href="register_users.php">Stock Items</a>
-        <a href="#">Settings</a>
+        <a href="#">Settings</a> 
         <form method="POST">
             <button type="submit" name="logout">Logout</button>
         </form>

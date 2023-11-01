@@ -16,10 +16,37 @@
         header("Location: admin-login.php");
         exit();
     }
+    if (isset($_POST['add-product'])) {
+    $product_name = $_POST['product-name'];
+    $description = $_POST['product-desc']; // Update with correct input field name
+    $price = $_POST['product-price']; // Update with correct input field name
+    $stock_quantity = $_POST['product-stock']; // Update with correct input field name
+    $category = $_POST['product-category']; // Update with correct input field name
+
+    // Upload and handle the product image (you may need to adjust this part)
+    $product_image = $_FILES['product-image']['name'];
+    $target_dir = "product_images/"; // Directory to store product images
+    $target_file = $target_dir . basename($_FILES['product-image']['name']);
+    move_uploaded_file($_FILES['product-image']['tmp_name'], $target_file);
+
+    // Prepare and execute the SQL query
+    $sql = "INSERT INTO item (name, description, price, stock_quantity, category, productimage)
+            VALUES ('$product_name', '$description', '$price', '$stock_quantity', '$category', '$product_image')";
+    
+    if (mysqli_query($conn, $sql)) {
+        // Data inserted successfully
+        header("Location: admin-dashboard.php");
+        exit();
+    } else {
+        // Error handling
+        echo "Error: " . mysqli_error($conn);
+    }
+}
 ?>
 
+
 <!DOCTYPE html>
-<html>
+<html> 
 <head>
     <title>Admin Dashboard</title>
     <link rel="stylesheet" type="text/css" href="admin-dashboard2.css">
@@ -32,7 +59,7 @@
     <div class="sidenav" id="mySidenav">
         <a href="admin-dashboard.php">Dashboard</a>
         <a href="add-item.php">Add Item</a>
-        <a href="register_users.php">Stock Items</a>
+        <a href="stock-item.php">Stock Items</a>
         <a href="#">Settings</a>
         <form method="POST">
             <button type="submit" name="logout">Logout</button>
@@ -52,23 +79,27 @@
     
     <div class="add-item">
         <h2>Add item</h2>
-        <form method="post">
+        <form method="POST" enctype="multipart/form-data">
             <label>Product Name</label>
-            <input type="text" name="product-name" placeholder="Enter product name" required> 
+            <input type="text" name="product-name" placeholder="Enter product name" required="">
             <label>Product Price</label>
-            <input type="text" name="product-price" placeholder="Enter product price" required>
+            <input type="text" name="product-price" placeholder="Enter product price" required="">
+            <label>Stock Quantity</label>
+            <input type="number" name="product-stock" placeholder="Enter quantity " required="">
+            <label>Description</label>
+            <input type="text" name="product-desc" placeholder="Enter descrition" required="">
             <label>Product Category</label>
-            <select class="product-category"> 
-                <option>Fast Food</option> 
-                <option>Desi Food</option>
-                <option>Chinese</option>
-                <option>Drinks</option>
-                <option>Desserts</option>
-                <option>BBQ</option>
+            <select name="product-category" class="product-category" required="">
+                <option value="fast-food">Fast Food</option>
+                <option value="desi-food">Desi Food</option>
+                <option value="chinese-food">Chinese Food</option>
+                <option value="desserts">Desserts</option>
+                <option value="drinks">Drinks</option>
+                <option value="bbq">BBQ</option>
             </select>
-            <label>Product image</label>
-            <input type="file" name="product-image" required class="product-image">
-            <input type="button" name="button" value="Add product" class="add-btn">
+            <label>Product Image</label>
+            <input type="file" name="product-image" class="product-image" required="">
+            <button type="submit" name="add-product" class="add-product">Add Product</button>
         </form>
     </div>
 
