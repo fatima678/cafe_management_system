@@ -134,6 +134,18 @@ button:hover{
 }
 .product-image{
     margin-top: -10px;
-
 }
+
+.alert {
+    position: fixed;
+    top: 50px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+    color: #black;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    z-index: 9999;
+    transition: .5s ease;
+    }
+
 

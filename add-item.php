@@ -18,10 +18,10 @@
     }
     if (isset($_POST['add-product'])) {
     $product_name = $_POST['product-name'];
-    $description = $_POST['product-desc']; // Update with correct input field name
-    $price = $_POST['product-price']; // Update with correct input field name
-    $stock_quantity = $_POST['product-stock']; // Update with correct input field name
-    $category = $_POST['product-category']; // Update with correct input field name
+    $description = $_POST['product-desc']; 
+    $price = $_POST['product-price']; 
+    $stock_quantity = $_POST['product-stock']; 
+    $category = $_POST['product-category']; 
 
     // Upload and handle the product image (you may need to adjust this part)
     $product_image = $_FILES['product-image']['name'];
@@ -35,6 +35,8 @@
     
     if (mysqli_query($conn, $sql)) {
         // Data inserted successfully
+       
+       $_SESSION['success_message'] = "Data inserted successfully.";
         header("Location: admin-dashboard.php");
         exit();
     } else {
@@ -57,11 +59,11 @@
 </head>
 <body>
     <div class="sidenav" id="mySidenav">
-        <a href="admin-dashboard.php">Dashboard</a>
+        <a href="admin-dashboard.php">Dashboard</a> 
         <a href="add-item.php">Add Item</a>
-        <a href="stock-item.php">Stock Items</a>
+        <a href="stock-item.php">Stock Items</a> 
         <a href="#">Settings</a>
-        <form method="POST">
+        <form method="POST"> 
             <button type="submit" name="logout">Logout</button>
         </form>
         <div class="bottom-links">

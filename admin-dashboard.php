@@ -3,12 +3,26 @@
     if (!isset($_SESSION['AdminLoginId'])) {
         // Redirect to the login page if the session variable is not set
         header("Location: admin-login.php");
-        exit();
-    }
+        exit(); 
+    } 
 
     // Include your database connection code here
     include("connection.php");
-
+    $successMessage = "";
+    if (isset($_GET['success'])) {
+        $successMessage = $_GET['success'];
+    }
+    if (isset($_SESSION['success_message'])) {
+        $successMessage = $_SESSION['success_message'];
+        echo '<script type="text/javascript">
+        setTimeout(function () {
+            var alert = document.getElementById("alert");
+            alert.style.display = "none";
+        }, 5000); // Close the alert after 5 seconds
+        </script>';
+        unset($_SESSION['success_message']); // Clear the session variable
+    }
+    
     // Logout logic
     if (isset($_POST['logout'])) {
         // Destroy the session and redirect to the login page
@@ -22,16 +36,16 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="admin-dashboard2.css">
+    <link rel="stylesheet" type="text/css" href="admin-dashboard.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="sidenav" id="mySidenav">
+    <div class="sidenav" id="mySidenav"> 
         <a href="admin-dashboard.php">Dashboard</a>
         <a href="add-item.php">Add Item</a>
-        <a href="register_users.php">Stock Items</a>
+        <a href="stock-item.php">Stock Items</a>
         <a href="#">Settings</a> 
         <form method="POST">
             <button type="submit" name="logout">Logout</button>
@@ -47,6 +61,8 @@
         <div class="chart-container">
             <canvas id="myPieChart" width="400" height="200"></canvas>
         </div>
+        <div class="alert" id="alert" ><?php  echo "$successMessage";?></div>
+         
     </div>
 
     <script>
