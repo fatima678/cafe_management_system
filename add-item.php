@@ -37,7 +37,7 @@
         // Data inserted successfully
        
        $_SESSION['success_message'] = "Data inserted successfully.";
-        header("Location: admin-dashboard.php");
+        header("Location: stock-item.php");
         exit();
     } else {
         // Error handling
