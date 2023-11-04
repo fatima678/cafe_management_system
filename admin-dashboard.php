@@ -36,7 +36,7 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="admin-dashboard.css">
+    <link rel="stylesheet" type="text/css" href="admin-dashboard2.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
@@ -45,7 +45,7 @@
     <div class="sidenav" id="mySidenav"> 
         <a href="admin-dashboard.php">Dashboard</a>
         <a href="add-item.php">Add Item</a>
-        <a href="stock-item.php">Stock Items</a>
+        <a href="stock-items.php">Stock Items</a>
         <a href="#">Settings</a> 
         <form method="POST">
             <button type="submit" name="logout">Logout</button>

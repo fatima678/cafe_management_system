@@ -15,35 +15,41 @@
         session_destroy();
         header("Location: admin-login.php");
         exit();
-    }
+    }//if                                         
     if (isset($_POST['add-product'])) {
-    $product_name = $_POST['product-name'];
-    $description = $_POST['product-desc']; 
-    $price = $_POST['product-price']; 
-    $stock_quantity = $_POST['product-stock']; 
-    $category = $_POST['product-category']; 
+        $product_name = $_POST['product-name'];
+        $description = $_POST['product-desc']; // Update with correct input field name
+        $price = $_POST['product-price']; // Update with correct input field name
+        $stock_quantity = $_POST['product-stock']; // Update with correct input field name
+        $category = $_POST['product-category']; // Update with correct input field name
 
-    // Upload and handle the product image (you may need to adjust this part)
-    $product_image = $_FILES['product-image']['name'];
-    $target_dir = "product_images/"; // Directory to store product images
-    $target_file = $target_dir . basename($_FILES['product-image']['name']);
-    move_uploaded_file($_FILES['product-image']['tmp_name'], $target_file);
+        if (isset($_FILES['productimage']) && is_uploaded_file($_FILES['productimage']['tmp_name'])) {
+            $profilePicName = $_FILES['productimage']['name'];
+            $profilePicTemp = $_FILES['productimage']['tmp_name'];
+            $profilePicPath = "product_images/" . $profilePicName;  
 
-    // Prepare and execute the SQL query
-    $sql = "INSERT INTO item (name, description, price, stock_quantity, category, productimage)
-            VALUES ('$product_name', '$description', '$price', '$stock_quantity', '$category', '$product_image')";
-    
-    if (mysqli_query($conn, $sql)) {
-        // Data inserted successfully
-       
-       $_SESSION['success_message'] = "Data inserted successfully.";
-        header("Location: stock-item.php");
-        exit();
-    } else {
-        // Error handling
-        echo "Error: " . mysqli_error($conn);
-    }
-}
+        move_uploaded_file($profilePicTemp, $profilePicPath);
+        }//if
+        else {
+            echo "Profile picture upload failed.";
+            exit();
+        }//else
+
+        // Prepare and execute the SQL query
+        $sql = "INSERT INTO item (name, description, price, stock_quantity, category, productimage)
+                VALUES ('$product_name', '$description', '$price', '$stock_quantity', '$category', '$profilePicPath')";
+        
+        if (mysqli_query($conn, $sql)) {
+        
+            $_SESSION['success_message'] = "Data inserted successfully.";
+            header("Location: stock-items.php");
+            exit();
+        }//if
+        else {
+            // Error handling
+            echo "Error: " . mysqli_error($conn);
+        }//else
+    }//if
 ?>
 
 
@@ -55,13 +61,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="add-item.css">
+    
 </head>
 <body>
     <div class="sidenav" id="mySidenav">
         <a href="admin-dashboard.php">Dashboard</a> 
         <a href="add-item.php">Add Item</a>
-        <a href="stock-item.php">Stock Items</a> 
+        <a href="stock-items.php">Stock Items</a> 
         <a href="#">Settings</a>
         <form method="POST"> 
             <button type="submit" name="logout">Logout</button>
@@ -100,7 +106,7 @@
                 <option value="bbq">BBQ</option>
             </select>
             <label>Product Image</label>
-            <input type="file" name="product-image" class="product-image" required="">
+            <input type="file" name="productimage" class="product-image" required="">
             <button type="submit" name="add-product" class="add-product">Add Product</button>
         </form>
     </div>

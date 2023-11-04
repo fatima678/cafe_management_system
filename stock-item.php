@@ -93,7 +93,7 @@
     <div class="sidenav" id="mySidenav"> 
         <a href="admin-dashboard.php">Dashboard</a>
         <a href="add-item.php">Add Item</a>
-        <a href="stock-item.php">Stock Items</a>
+        <a href="stock-items.php">Stock Items</a>
         <a href="#">Settings</a> 
         <form method="POST">
             <button type="submit" name="logout">Logout</button>
