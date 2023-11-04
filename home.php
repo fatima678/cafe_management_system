@@ -144,5 +144,10 @@ if (isset($_POST['add_item'])) {
             <button id="print-button" onclick="printBill()">Print Bill</button>   
         </div>
     </div>
+    <script>
+        function printBill() {
+            window.print(); // Trigger the browser's print dialog
+        }
+    </script>
 </body>
 </html>
