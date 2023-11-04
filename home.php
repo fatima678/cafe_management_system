@@ -1,25 +1,54 @@
-<?php 
-    // session_start();
-    // if (!isset($_SESSION['AdminLoginId'])) {
-    //     // Redirect to the login page if the session variable is not set
-    //     header("Location: admin-login.php");
-    //     exit();
-    // }
+<?php
+// Include your database connection code here
+include("connection.php");
 
-    // Include your database connection code here
-    include("connection.php");
-    
-    $sql = "SELECT `name`,`price`,`productimage` FROM `item` WHERE 1";
+// Initialize the billData array
+$billData = array();
+
+// Check if the "add_item" form was submitted
+if (isset($_POST['add_item'])) {
+    // Get item ID, name, and price from the form
+    $itemId = $_POST['item_id'];
+    $itemName = $_POST['item_name'];
+    $itemPrice = $_POST['item_price'];
+
+    // Calculate other details, such as quantity, total amount, etc. (adjust these as needed)
+    $quantity = 1; // You may adjust this based on user input
+    $totalAmount = $quantity * $itemPrice; // Calculate total amount
+
+    // Insert the item into the billdetail table
+    $insertbilldetail = "INSERT INTO billdetail (item_id, quantity, price, total_amount) 
+                        VALUES ($itemId, $quantity, $itemPrice, $totalAmount)";
+
+    if ($conn->query($insertbilldetail) === TRUE) {
+        // Item added to the billdetail table successfully
+        header("Location: home.php");
+        exit();
+    } else {
+        // Handle the case where the insertion fails
+        echo "Error: " . $conn->error;
+    }
+}
+    // Fetch data for the items
+    $sql = "SELECT `item_id`, `name`, `price`, `productimage` FROM `item` WHERE 1";
     $result = $conn->query($sql);
 
+    if (!$result) {
+        echo "Query failed: " . $conn->error;
+    }
+    // Fetch data for the billdetail table
+    $sqlSelectbilldetail = "SELECT b.quantity, i.name, b.price, b.total_amount FROM billdetail b JOIN item i ON i.item_id = b.item_id";
+    $billResult = $conn->query($sqlSelectbilldetail);
 
-    // Logout logic
-    // if (isset($_POST['logout'])) {
-    //     // Destroy the session and redirect to the login page
-    //     session_destroy();
-    //     header("Location: admin-login.php");
-    //     exit();
-    // }
+    if ($billResult) {
+        while ($billRow = $billResult->fetch_assoc()) {
+            // Store the bill data in the array
+            $billData[] = $billRow;
+        }
+    } else {
+        echo "Query failed: " . $conn->error;
+    }
+
 
 ?>
 <!DOCTYPE html>
@@ -28,7 +57,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>homepage</title>
-    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="home2.css">
     <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
@@ -43,166 +72,77 @@
         <a href="#">Drinks</a>
         <input type="text" class="search-bar" placeholder="search...">
     </div> 
-        <div class="container">
-             <!--<div class="item-container">
-                <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-                 <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-                 <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-                 <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-                 <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-                 <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-                 <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-                 <div class="card">
-                    <img src="biryni.JPeg" alt="Avatar" style="width:100%">
-                     <div class="sub-container">
-                        <p>Mutton Biryni</p>
-                        <p>Rs 3400.0</p>
-                     </div>
-                     <button class="btn ">Add Item</button>
-                 </div>
-            </div> -->
-
-            <div class="item-container">
-                <?php 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<div class="card">';
-                            echo '<img src="' . $row['productimage'] . '" style="width:100%">';
-                            echo '<div class="sub-container">';
-                            echo '<p>' . $row['name'] . '</p>';
-                            echo '<p>Rs ' . $row['price'] . '</p>';
-                            echo '</div>';
-                            echo '<button class="btn">Add Item</button>';
-                            echo '</div>';
-                        }
+    <div class="container">
+        <div class="item-container">
+            <?php 
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        echo '<div class="card">';
+                        echo '<img src="' . $row['productimage'] . '" style="width:100%">';
+                        echo '<div class="sub-container">';
+                        echo '<p name="item_name">' . $row['name'] . '</p>';
+                        echo '<p name="item_price">Rs ' . $row['price'] . '</p>';
+                        echo '</div>';
+                        echo '<form method="post" action="">';
+                        echo '<input type="hidden" name="item_id" value="' . $row['item_id'] . '">';
+                        echo '<input type="hidden" name="item_name" value="' . $row['name'] . '">';
+                        echo '<input type="hidden" name="item_price" value="' . $row['price'] . '">';
+                        echo '<button type="submit" name="add_item" class="btn">Add Item</button>';
+                        echo '</form>';
+                        echo '</div>';
                     }
+                }
+            ?>
+        </div>
+
+        <div class="bill-container">
+            <h2>Bill Detail</h2>
+            <div class="bill-headers">
+                <div class="header">Sr.</div>
+                <div class="header">Item Name</div>
+                <div class="header">Quantity</div>
+                <div class="header">Price</div>
+            </div>
+            <div class="bill">
+                <?php
+                $itemNumber = 1;
+                foreach ($billData as $billRow) {
+                    echo '<div class="bill-item">';
+                    echo '<div class="item-no">' . $itemNumber . '.</div>';
+                    echo '<div class="item-name">' . $billRow['name'] . '</div>';
+                    echo '<input type="number" name="" class="quantity" value="' . $billRow['quantity'] . '">';
+                    echo '<div class="amount">' . $billRow['price'] . '</div>';
+                    echo '</div>';
+                    $itemNumber++;
+                }
                 ?>
             </div>
-
-            <div class="bill-container">
-                <h2>Bill Detail</h2>
-                    <div class="bill-headers">
-                        <div class="header">Sr.</div>
-                        <div class="header">Item Name</div>
-                        <div class="header">Quantity</div>
-                        <div class="header">Price</div>
-                    </div>
-                <div class="bill">
-                    <div class="bill-item">
-                        <div class="item-no">1.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                    <div class="bill-item">
-                        <div class="item-no">2.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                    <div class="bill-item">
-                        <div class="item-no">3.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                    <div class="bill-item">
-                        <div class="item-no">4.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                    <div class="bill-item">
-                        <div class="item-no">5.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                    <div class="bill-item">
-                        <div class="item-no">6.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                    <div class="bill-item">
-                        <div class="item-no">7.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                    <div class="bill-item">
-                        <div class="item-no">8.</div>
-                        <div class="item-name">Mutton Biryni</div>
-                        <input type="number" name="" class="quantity">
-                        <div class="amount">6800.0</div>
-                    </div>
-                </div> 
-                    <div class="amount-head">
-                        <h4>Total Amount</h4>
-                        <h4>Total Bill</h4>
-                        <h4>Change</h4>
-                    </div>
-                    <div class="bills">
-                        <h4>5000</h4>
-                        <h4>= 3400</h4>
-                        <h4>1600</h4>
-                    </div>
-                    <button id="print-button" onclick="printBill()">Print Bill</button>   
+            <div class="amount-head">
+                <h4>Total Amount</h4>
+                <h4>Total Bill</h4>
+                <h4>Change</h4>
             </div>
+            <div class="bills">
+                <?php
+                // Calculate total amount, total bill, and change based on the fetched data
+                $totalAmount = 0;
+                $totalBill = 0;
+                $changeAmt = 0;
+
+                foreach ($billData as $billRow) {
+                    $totalAmount += $billRow['total_amount'];
+                }
+
+                $totalBill = $totalAmount; // Assuming total bill is the same as total amount
+                $changeAmt = $totalBill - $totalAmount;
+
+                echo '<h4>' . $totalAmount . '</h4>';
+                echo '<h4>= ' . $totalBill . '</h4>';
+                echo '<h4>' . $changeAmt . '</h4>';
+                ?>
+            </div>
+            <button id="print-button" onclick="printBill()">Print Bill</button>   
         </div>
-        <script>
-            function printBill() {
-                window.print(); // Trigger the browser's print dialog
-            }
-        </script>
+    </div>
 </body>
 </html>
