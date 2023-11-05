@@ -57,7 +57,7 @@ if (isset($_POST['add_item'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>homepage</title>
-    <link rel="stylesheet" href="home2.css">
+    <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>

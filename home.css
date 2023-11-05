@@ -73,7 +73,7 @@
 }
 .search-bar{
     border: none;
-    padding: 5px;
+    padding: 6px;
     background-color: rgb(252, 252, 252);
     border-radius: 20px;
     padding-left: 10px;
@@ -89,7 +89,6 @@
     margin-bottom: 1rem;
 }
 
-/*bill-container*/
 .bill-container{
     margin-top: 1rem;
     background-color: grey;
