@@ -81,10 +81,10 @@
         td a{
             text-decoration: none;
             color: red;
-            font-weight: bold; hn g 
+            font-weight: bold; 
         }
         .table-scroll{
-            max-height: 400px; 
+            max-height: 300px; 
             overflow: auto;
         }
     </style>
